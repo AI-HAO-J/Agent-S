@@ -1,0 +1,73 @@
+Wiring Guide for Obstacle-Avoiding Rover
+=========================================
+
+Components Required:
+- Arduino Uno (or compatible board)
+- L298N Motor Driver Module
+- HC-SR04 Ultrasonic Sensor
+- 2x DC Motors (typically 6V-12V gear motors)
+- Power Supply (battery pack for motors, typically 7.4V-12V)
+- Chassis, wheels, and caster wheel
+
+Arduino to L298N Motor Driver Connections:
+------------------------------------------
+Arduino Pin   ->   L298N Pin    Description
+-----------        ---------    -----------
+Pin 5 (PWM)   ->   ENA          Speed control for Motor A (left motor)
+Pin 8         ->   IN1          Motor A direction control 1
+Pin 9         ->   IN2          Motor A direction control 2
+Pin 6 (PWM)   ->   ENB          Speed control for Motor B (right motor)
+Pin 10        ->   IN3          Motor B direction control 1
+Pin 11        ->   IN4          Motor B direction control 2
+GND           ->   GND          Common ground
+
+Note: If ENA/ENB jumpers are installed on L298N, motors run at full speed.
+      Remove jumpers to use PWM speed control from Arduino.
+
+L298N Motor Driver to Motors:
+-----------------------------
+L298N Pin     ->   Connection   Description
+---------          ----------   -----------
+OUT1, OUT2    ->   Motor A      Left motor terminals
+OUT3, OUT4    ->   Motor B      Right motor terminals
++12V          ->   Battery +    Motor power supply (7.4V-12V)
+GND           ->   Battery -    Motor power ground
+
+Note: The +5V pin on L298N can power the Arduino if using >7V motor supply.
+      Otherwise, power Arduino separately via USB or VIN.
+
+Arduino to HC-SR04 Ultrasonic Sensor:
+-------------------------------------
+Arduino Pin   ->   HC-SR04 Pin  Description
+-----------        -----------  -----------
+Pin 2         ->   TRIG         Trigger pulse output
+Pin 3         ->   ECHO         Echo pulse input
+5V            ->   VCC          Sensor power
+GND           ->   GND          Sensor ground
+
+Power Considerations:
+---------------------
+- Motors typically require 6V-12V DC, higher current (1A+ per motor)
+- Arduino can be powered via USB (5V) or VIN (7-12V)
+- HC-SR04 requires 5V, low current (~15mA)
+- Use separate power supply for motors to avoid voltage drops
+- Common ground between Arduino and motor power supply
+
+Physical Setup:
+---------------
+- Mount HC-SR04 at front of rover, facing forward
+- Mount motors to chassis with wheels
+- Add a caster wheel or ball bearing at rear for stability
+- Ensure sensor has clear line of sight (no obstructions)
+
+                    [HC-SR04]
+                       ▲
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+   [Motor A] ──────────┼────────── [Motor B]
+   (Left)     [Arduino + L298N]    (Right)
+        │                             │
+        └─────────────────────────────┘
+                       │
+                  [Caster Wheel]
