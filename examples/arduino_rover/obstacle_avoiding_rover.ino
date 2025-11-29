@@ -17,6 +17,8 @@ const int ECHO_PIN = 3;
 const int FORWARD_SPEED = 180; // 0-255
 const int TURN_SPEED = 170;
 const unsigned long OBSTACLE_DISTANCE_CM = 25; // threshold
+const unsigned long ULTRASONIC_TIMEOUT_MICROS = 30000; // timeout 30ms => ~5m max range
+const int MICROSECONDS_PER_CM_ROUNDTRIP = 58; // speed of sound ~343m/s, roundtrip
 
 void setup() {
   pinMode(ENA, OUTPUT);
@@ -72,9 +74,9 @@ long readUltrasonicCm() {
   digitalWrite(TRIG_PIN, LOW);
 
   // Read echo pulse
-  long duration = pulseIn(ECHO_PIN, HIGH, 30000); // timeout 30ms => ~5m
+  long duration = pulseIn(ECHO_PIN, HIGH, ULTRASONIC_TIMEOUT_MICROS);
   if (duration == 0) return -1; // no reading
-  long cm = duration / 29 / 2;
+  long cm = duration / MICROSECONDS_PER_CM_ROUNDTRIP;
   return cm;
 }
 

@@ -43,6 +43,8 @@ You can adjust these constants in the code:
 | `FORWARD_SPEED` | 180 | Motor speed when driving forward (0-255) |
 | `TURN_SPEED` | 170 | Motor speed when turning (0-255) |
 | `OBSTACLE_DISTANCE_CM` | 25 | Distance threshold for obstacle detection (cm) |
+| `ULTRASONIC_TIMEOUT_MICROS` | 30000 | Sensor timeout in microseconds (~5m max range) |
+| `MICROSECONDS_PER_CM_ROUNDTRIP` | 58 | Calibration constant for distance calculation |
 
 ## Usage
 
